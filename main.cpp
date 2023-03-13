@@ -12,6 +12,8 @@
 #include <iomanip>
 #include <set>
 #include <queue>
+#include <map>
+#include "movies.h"
 using namespace std;
 
 bool parseLine(string &line, string &movieName, double &movieRating);
@@ -31,14 +33,16 @@ int main(int argc, char** argv){
     }
   
   // Create an object of a STL data-structure to store all the movies
-
   string line, movieName;
   double movieRating;
-  // Read each file and store the name and rating
+  set<Movies> listMovies;
+  Movies newMovie;
   while (getline (movieFile, line) && parseLine(line, movieName, movieRating)){
+        newMovie.setMovies(movieName, movieRating);
+        listMovies.insert(newMovie);
         // Use std::string movieName and double movieRating
         // to construct your Movie objects
-        // cout << movieName << " has rating " << movieRating << endl;
+        cout << movieName << " has rating " << movieRating << endl;
         // insert elements into your data structure
   }
 
@@ -46,17 +50,70 @@ int main(int argc, char** argv){
 
   if (argc == 2){
         //print all the movies in ascending alphabetical order of movie names
+        cout << "Testing part2" << endl;
+        set<Movies>::iterator it = listMovies.begin();
+        while (it != listMovies.end()) {
+            cout << *it;
+            ++it;
+        }
         return 0;
   }
 
   //  For each prefix,
+  // set.lower_bound("");
+  string prefix;
+  set<Movies>::iterator iter;
+  queue<pair<string,Movies>> maxFilteredMovies;
+  for (int i = 2; i < argc; ++i) {
+    prefix = argv[i];
+    auto matchLower = listMovies.lower_bound(prefix);
+    auto matchUpper = listMovies.upper_bound(prefix);
+    pair<string, Movies> maxStore;
+    maxStore.first = prefix;
+    if (matchLower == listMovies.end()) {
+        Movies a;
+        maxStore.second = a;
+    }
+    else {
+        Movies max = *matchLower;
+        auto temp = matchLower;
+        ++matchUpper;
+        while (temp != matchUpper) {
+            cout << *temp;
+            if (max.getRating() < (*temp).getRating()) {
+                max = *temp;
+            }
+            ++temp;
+        }
+        maxStore.second = max;
+    }
+    maxFilteredMovies.push(maxStore);
+}
+
+Movies compare;
+while (!maxFilteredMovies.empty()) {
+    compare = maxFilteredMovies.front().second;
+    if (compare.getRating() == -1.0) {
+        cout << "No movies found with prefix "<< maxFilteredMovies.front().first << endl << endl;
+
+    }
+    else {
+        cout << "Best movie with prefix " << maxFilteredMovies.front().first << " is: " << compare.getName() << " with rating " << std::fixed << std::setprecision(1) << compare.getRating() << endl;
+
+    }
+    maxFilteredMovies.pop();
+}
+
+
+  
+
   //  Find all movies that have that prefix and store them in an appropriate data structure
   //  If no movie with that prefix exists print the following message
-  cout << "No movies found with prefix "<<"<replace with prefix>" << endl << endl;
+//   cout << "No movies found with prefix "<<"<replace with prefix>" << endl << endl;
 
-  //  For each prefix,
-  //  Print the highest rated movie with that prefix if it exists.
-  cout << "Best movie with prefix " << "<replace with prefix>" << " is: " << "replace with movie name" << " with rating " << std::fixed << std::setprecision(1) << "replace with movie rating" << endl;
+//   //  For each prefix,
+//   //  Print the highest rated movie with that prefix if it exists.
+//   cout << "Best movie with prefix " << "<replace with prefix>" << " is: " << "replace with movie name" << " with rating " << std::fixed << std::setprecision(1) << "replace with movie rating" << endl;
 
   return 0;
 }
