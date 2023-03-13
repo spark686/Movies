@@ -19,7 +19,7 @@ bool operator<(const Movies& lhs, const Movies& rhs) {
 }
 
 ostream & operator<<(ostream& out, const Movies movie) {
-    out << movie.name << ", " << movie.rating << endl;
+    out << movie.name << ", " << fixed << setprecision(1) << movie.rating << endl;
     return out;
 }
 

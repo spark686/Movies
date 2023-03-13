@@ -98,7 +98,7 @@ while (!maxFilteredMovies.empty()) {
 
     }
     else {
-        cout << "Best movie with prefix " << maxFilteredMovies.front().first << " is: " << compare.getName() << " with rating " << std::fixed << std::setprecision(1) << compare.getRating() << endl;
+        cout << "Best movie with prefix " << maxFilteredMovies.front().first << " is: " << compare.getName() << " with rating " << std::setprecision(1) << compare.getRating() << endl;
 
     }
     maxFilteredMovies.pop();
