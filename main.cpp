@@ -42,7 +42,7 @@ int main(int argc, char** argv){
         listMovies.insert(newMovie);
         // Use std::string movieName and double movieRating
         // to construct your Movie objects
-        cout << movieName << " has rating " << movieRating << endl;
+        // cout << movieName << " has rating " << movieRating << endl;
         // insert elements into your data structure
   }
 
