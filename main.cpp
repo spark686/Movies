@@ -50,7 +50,7 @@ int main(int argc, char** argv){
 
   if (argc == 2){
         //print all the movies in ascending alphabetical order of movie names
-        cout << "Testing part2" << endl;
+        // cout << "Testing part2" << endl;
         set<Movies>::iterator it = listMovies.begin();
         while (it != listMovies.end()) {
             cout << *it;
