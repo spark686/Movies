@@ -98,7 +98,7 @@ int main(int argc, char** argv){
     add.first = prefix;
     max.setMovies("none", -1.0);
     if (!filtered.empty()) {
-        sort(filtered.begin(), filtered.end(), compare());
+        sort(filtered.begin(), filtered.end(), compare);
         max = filtered.at(0);
         // cout << max << "After" << endl;
     }
