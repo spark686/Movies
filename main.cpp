@@ -99,7 +99,7 @@ int main(int argc, char** argv){
     max.setMovies("none", -1.0);
     if (!filtered.empty()) {
         sort(filtered.begin(), filtered.end(), compare);
-        for (int8_t i = 0; i < filtered.length(); ++i) {
+        for (int8_t i = 0; i < filtered.size(); ++i) {
             cout << filtered.at(i);
         }
         max = filtered.at(0);
