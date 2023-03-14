@@ -84,6 +84,13 @@ int main(int argc, char** argv){
                 break;
             }
         }
+        // auto a = listMovies.begin();
+        // cout << "Checking set" << endl << endl;
+        // while (a != listMovies.end()) {
+        //     cout << *a;
+        //     ++a;
+        // }
+        // cout << "Test end" << endl;
 
     }
     // while (iter != listMovies.end()) {
@@ -100,7 +107,7 @@ int main(int argc, char** argv){
     if (!filtered.empty()) {
         sort(filtered.begin(), filtered.end(), compare);
         for (int8_t i = 0; i < filtered.size(); ++i) {
-            cout << filtered.at(i);
+            // cout << filtered.at(i);
         }
         max = filtered.at(0);
         cout << endl;
@@ -191,16 +198,5 @@ bool parseLine(string &line, string &movieName, double &movieRating) {
     return true;
 }
 bool compare(const Movies& lhs, const Movies& rhs) {
-    if (lhs.getRating() == rhs.getRating()) {
-        if (lhs.getName() < rhs.getName()) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    if (lhs.getRating() > rhs.getRating()) {
-        return true;
-    }
-    return false;
+    return lhs.getRating() > rhs.getRating();
 }
