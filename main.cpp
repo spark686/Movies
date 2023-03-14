@@ -105,7 +105,7 @@ int main(int argc, char** argv){
     add.first = prefix;
     Movies max;
     if (!filtered.empty()) {
-        sort(filtered.begin(), filtered.end(), compare);
+        sort(filtered.begin(), filtered.end(), com);
         for (int8_t i = 0; i < filtered.size(); ++i) {
             cout << filtered.at(i);
         }
@@ -197,7 +197,7 @@ bool parseLine(string &line, string &movieName, double &movieRating) {
     movieRating = stod(tempRating);
     return true;
 }
-bool compare(const Movies& lhs, const Movies& rhs) {
+bool com(const Movies& lhs, const Movies& rhs) {
     if (lhs.getRating() > rhs.getRating()) {
         return true;
     }
