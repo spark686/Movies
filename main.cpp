@@ -18,6 +18,7 @@
 using namespace std;
 
 bool parseLine(string &line, string &movieName, double &movieRating);
+bool compare(const Movies& lhs, const Movies& rhs);
 
 int main(int argc, char** argv){
     if (argc < 2){
@@ -70,15 +71,15 @@ int main(int argc, char** argv){
   Movies max;
   double r;
   pair<string, Movies> add;
-
+  vector<Movies> filtered;
   for (int i = 2; i < argc; ++i) {
     //setting prefix
     prefix = argv[i];
     iter = listMovies.lower_bound(prefix);
-    queue<Movies> filtered;
+    set<Movies> filtered;
     if (iter != listMovies.end()) {
         while (prefix == *iter) {
-            filtered.push(*iter);
+            filtered.push_back(*iter);
             ++iter;
             if (iter == listMovies.end()) {
                 break;
@@ -98,16 +99,8 @@ int main(int argc, char** argv){
     add.first = prefix;
     max.setMovies("none", -1.0);
     if (!filtered.empty()) {
-        max = filtered.front();
-        // cout << max << "Before" << endl;
-        while (!filtered.empty()) {
-            cout << filtered.front();
-            if (max.getRating() < filtered.front().getRating()) {
-                max = filtered.front();
-            }
-            filtered.pop();
-        }
-        cout << endl;
+        sort(filtered.begin(), filtered.end(), compare());
+        max = filtered.at(0);
         // cout << max << "After" << endl;
     }
     // cout << max << "1" << endl;
@@ -193,4 +186,10 @@ bool parseLine(string &line, string &movieName, double &movieRating) {
     
     movieRating = stod(tempRating);
     return true;
+}
+bool compare(const Movies& lhs, const Movies& rhs) {
+    if (lhs.getRating() > rhs.getRating()) {
+        return true;
+    }
+    return false;
 }
