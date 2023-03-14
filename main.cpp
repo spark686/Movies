@@ -99,6 +99,9 @@ int main(int argc, char** argv){
     max.setMovies("none", -1.0);
     if (!filtered.empty()) {
         sort(filtered.begin(), filtered.end(), compare);
+        for (int8_t i = 0; i < filtered.length(); ++i) {
+            cout << filtered;
+        }
         max = filtered.at(0);
         // cout << max << "After" << endl;
     }
