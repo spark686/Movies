@@ -144,7 +144,6 @@ int main(int argc, char** argv){
 }
 
 Movies compare;
-cout << endl;
 while (!maxFilteredMovies.empty()) {
     compare = maxFilteredMovies.front().second;
     if (compare.getRating() < 0) {
