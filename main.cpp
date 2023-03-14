@@ -67,7 +67,6 @@ int main(int argc, char** argv){
   queue<pair<string,Movies>> maxFilteredMovies;
   Movies temp;
   string name;
-  Movies max;
   double r;
   pair<string, Movies> add;
   vector<Movies> filtered;
@@ -97,7 +96,7 @@ int main(int argc, char** argv){
     //     ++iter;
     // }
     add.first = prefix;
-    max.setMovies("none", -1.0);
+    Movies max;
     if (!filtered.empty()) {
         sort(filtered.begin(), filtered.end(), compare);
         for (int8_t i = 0; i < filtered.size(); ++i) {
