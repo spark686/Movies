@@ -2,7 +2,6 @@
 # Sungchae Park
 
 all: runMovies
-	./runMovies
 
 runMovies: main.cpp movies.cpp
 	g++ main.cpp movies.cpp -o runMovies
