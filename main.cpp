@@ -74,6 +74,8 @@ int main(int argc, char** argv){
   for (int i = 2; i < argc; ++i) {
     //setting prefix
     prefix = argv[i];
+    vector<Movies> filtered;
+
     auto iter = listMovies.lower_bound(prefix);
     if (iter != listMovies.end()) {
         while (prefix == *iter) {
@@ -108,7 +110,6 @@ int main(int argc, char** argv){
     // cout << max << "1" << endl;
     add.second = max;
     maxFilteredMovies.push(add);
-    filtered.clear();
     // cout << "TEsting" << endl;
     // cout << maxFilteredMovies.front().second << endl;
 
