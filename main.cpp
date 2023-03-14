@@ -103,6 +103,7 @@ int main(int argc, char** argv){
             cout << filtered.at(i);
         }
         max = filtered.at(0);
+        cout << endl;
         // cout << max << "After" << endl;
     }
     // cout << max << "1" << endl;
