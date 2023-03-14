@@ -141,6 +141,7 @@ int main(int argc, char** argv){
     //     add.second = max;
     // }
     // maxFilteredMovies.push(add);
+    cout << endl;
 }
 
 Movies compare;
