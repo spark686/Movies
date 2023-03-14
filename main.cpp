@@ -192,6 +192,14 @@ bool parseLine(string &line, string &movieName, double &movieRating) {
     return true;
 }
 bool compare(const Movies& lhs, const Movies& rhs) {
+    if (lhs.getRating() == rhs.getRating()) {
+        if (lhs.getName() > rhs.getName()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     if (lhs.getRating() > rhs.getRating()) {
         return true;
     }
