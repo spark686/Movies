@@ -105,6 +105,7 @@ int main(int argc, char** argv){
     // cout << max << "1" << endl;
     add.second = max;
     maxFilteredMovies.push(add);
+    filtered.clear();
     // cout << "TEsting" << endl;
     // cout << maxFilteredMovies.front().second << endl;
 
