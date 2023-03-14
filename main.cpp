@@ -205,7 +205,7 @@ bool compare(const Movies& lhs, const Movies& rhs) {
         return false;
     }
     else {
-        if (lhs.getName() > rhs.getName()) {
+        if (lhs.getName() < rhs.getName()) {
             return true;
         }
     }
