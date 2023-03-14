@@ -76,7 +76,6 @@ int main(int argc, char** argv){
     //setting prefix
     prefix = argv[i];
     iter = listMovies.lower_bound(prefix);
-    set<Movies> filtered;
     if (iter != listMovies.end()) {
         while (prefix == *iter) {
             filtered.push_back(*iter);
