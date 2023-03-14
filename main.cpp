@@ -1,6 +1,6 @@
 // Spring'22
 // Instructor: Diba Mirza
-// Student name: 
+// Student name: Sungchae Park
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -13,6 +13,7 @@
 #include <set>
 #include <queue>
 #include <map>
+#include <utility>
 #include "movies.h"
 using namespace std;
 
@@ -64,36 +65,89 @@ int main(int argc, char** argv){
   string prefix;
   set<Movies>::iterator iter;
   queue<pair<string,Movies>> maxFilteredMovies;
+  Movies temp;
+  string name;
+  Movies max;
+  double r;
+  pair<string, Movies> add;
+
   for (int i = 2; i < argc; ++i) {
+    //setting prefix
     prefix = argv[i];
-    auto matchLower = listMovies.lower_bound(prefix);
-    auto matchUpper = listMovies.upper_bound(prefix);
-    pair<string, Movies> maxStore;
-    maxStore.first = prefix;
-    if (matchLower == listMovies.end()) {
-        Movies a;
-        maxStore.second = a;
-    }
-    else {
-        Movies max = *matchLower;
-        auto temp = matchLower;
-        ++matchUpper;
-        while (temp != matchUpper) {
-            cout << *temp;
-            if (max.getRating() < (*temp).getRating()) {
-                max = *temp;
+    iter = listMovies.lower_bound(prefix);
+    queue<Movies> filtered;
+    if (iter != listMovies.end()) {
+        while (prefix == *iter) {
+            filtered.push(*iter);
+            ++iter;
+            if (iter == listMovies.end()) {
+                break;
             }
-            ++temp;
         }
-        maxStore.second = max;
+
     }
-    maxFilteredMovies.push(maxStore);
+    // while (iter != listMovies.end()) {
+    //     if (temp != *iter) {
+    //         break;
+    //     }
+    //     temp = *iter;
+    //     cout << temp;
+    //     filtered.push(temp);
+    //     ++iter;
+    // }
+    add.first = prefix;
+    max.setMovies("none", -1.0);
+    if (!filtered.empty()) {
+        max = filtered.front();
+        // cout << max << "Before" << endl;
+        while (!filtered.empty()) {
+            cout << filtered.front();
+            if (max.getRating() < filtered.front().getRating()) {
+                max = filtered.front();
+            }
+            filtered.pop();
+        }
+        // cout << max << "After" << endl;
+    }
+    // cout << max << "1" << endl;
+    add.second = max;
+    maxFilteredMovies.push(add);
+    // cout << "TEsting" << endl;
+    // cout << maxFilteredMovies.front().second << endl;
+
+    // queue<Movies> filteredMovies;
+    // while (iter != listMovies.end()) {
+    //     temp = *iter;
+    //     filteredMovies.push(temp);
+    //     listMovies.erase(temp);
+    //     iter = listMovies.find(prefix);
+    // }
+    // pair<string, Movies> add;
+    // add.first = prefix;
+    // if (filteredMovies.empty()) {
+    //     Movies a;
+    //     add.second = a;
+    // }
+    // else {
+    //     max = filteredMovies.front();
+    //     while (!filteredMovies.empty()) {
+    //         temp = filteredMovies.front();
+    //         if (max.getRating() < temp.getRating()) {
+    //             max = temp;
+    //         }
+    //         listMovies.insert(temp);
+    //         filteredMovies.pop();
+    //     }
+    //     add.second = max;
+    // }
+    // maxFilteredMovies.push(add);
 }
 
 Movies compare;
+cout << endl;
 while (!maxFilteredMovies.empty()) {
     compare = maxFilteredMovies.front().second;
-    if (compare.getRating() == -1.0) {
+    if (compare.getRating() < 0) {
         cout << "No movies found with prefix "<< maxFilteredMovies.front().first << endl << endl;
 
     }
