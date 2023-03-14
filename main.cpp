@@ -105,10 +105,21 @@ int main(int argc, char** argv){
     add.first = prefix;
     Movies max;
     if (!filtered.empty()) {
+        // cout << "Test" << endl;
+        // for (unsigned i = 0; i < filtered.size(); ++i) {
+        //     cout << filtered.at(i);
+        // }
+        // cout << "Test end" << endl;
         sort(filtered.begin(), filtered.end(), com);
-        for (int8_t i = 0; i < filtered.size(); ++i) {
-            cout << filtered.at(i);
+        auto a = filtered.begin();
+        while (a != filtered.end()) {
+            cout << *a;
+            ++a;
         }
+
+        // for (int8_t i = 0; i < filtered.size(); ++i) {
+        //     cout << filtered.at(i);
+        // }
         max = filtered.at(0);
         cout << endl;
         // cout << max << "After" << endl;
