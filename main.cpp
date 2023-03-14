@@ -107,6 +107,7 @@ int main(int argc, char** argv){
             }
             filtered.pop();
         }
+        cout << endl;
         // cout << max << "After" << endl;
     }
     // cout << max << "1" << endl;
@@ -141,7 +142,6 @@ int main(int argc, char** argv){
     //     add.second = max;
     // }
     // maxFilteredMovies.push(add);
-    cout << endl;
 }
 
 Movies compare;
