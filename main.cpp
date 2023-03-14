@@ -18,7 +18,7 @@
 using namespace std;
 
 bool parseLine(string &line, string &movieName, double &movieRating);
-bool compare(const Movies& lhs, const Movies& rhs);
+bool com(const Movies& lhs, const Movies& rhs);
 
 int main(int argc, char** argv){
     if (argc < 2){
