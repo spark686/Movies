@@ -64,7 +64,6 @@ int main(int argc, char** argv){
   //  For each prefix,
   // set.lower_bound("");
   string prefix;
-  set<Movies>::iterator iter;
   queue<pair<string,Movies>> maxFilteredMovies;
   Movies temp;
   string name;
@@ -75,7 +74,7 @@ int main(int argc, char** argv){
   for (int i = 2; i < argc; ++i) {
     //setting prefix
     prefix = argv[i];
-    iter = listMovies.lower_bound(prefix);
+    auto iter = listMovies.lower_bound(prefix);
     if (iter != listMovies.end()) {
         while (prefix == *iter) {
             filtered.push_back(*iter);
