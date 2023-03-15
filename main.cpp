@@ -51,8 +51,6 @@ int main(int argc, char** argv){
   movieFile.close();
 
   if (argc == 2){
-        //print all the movies in ascending alphabetical order of movie names
-        // cout << "Testing part2" << endl;
         set<Movies>::iterator it = listMovies.begin();
         while (it != listMovies.end()) {
             cout << *it;
@@ -65,17 +63,14 @@ int main(int argc, char** argv){
   // set.lower_bound("");
   string prefix;
   queue<pair<string,Movies>> maxFilteredMovies;
-  Movies temp;
-  string name;
-  double r;
   pair<string, Movies> add;
   vector<Movies> filtered;
+  Movies max;
+  auto iter = listMovies.begin();
   for (int i = 2; i < argc; ++i) {
-    //setting prefix
     prefix = argv[i];
     vector<Movies> filtered;
-
-    auto iter = listMovies.lower_bound(prefix);
+    iter = listMovies.lower_bound(prefix);
     if (iter != listMovies.end()) {
         while (prefix == *iter) {
             filtered.push_back(*iter);
@@ -84,78 +79,21 @@ int main(int argc, char** argv){
                 break;
             }
         }
-        // auto a = listMovies.begin();
-        // cout << "Checking set" << endl << endl;
-        // while (a != listMovies.end()) {
-        //     cout << *a;
-        //     ++a;
-        // }
-        // cout << "Test end" << endl;
-
     }
-    // while (iter != listMovies.end()) {
-    //     if (temp != *iter) {
-    //         break;
-    //     }
-    //     temp = *iter;
-    //     cout << temp;
-    //     filtered.push(temp);
-    //     ++iter;
-    // }
     add.first = prefix;
-    Movies max;
     if (!filtered.empty()) {
-        // cout << "Test" << endl;
-        // for (unsigned i = 0; i < filtered.size(); ++i) {
-        //     cout << filtered.at(i);
-        // }
-        // cout << "Test end" << endl;
         sort(filtered.begin(), filtered.end(), com);
         auto a = filtered.begin();
         while (a != filtered.end()) {
             cout << *a;
             ++a;
         }
-
-        // for (int8_t i = 0; i < filtered.size(); ++i) {
-        //     cout << filtered.at(i);
-        // }
         max = filtered.at(0);
         cout << endl;
-        // cout << max << "After" << endl;
     }
-    // cout << max << "1" << endl;
     add.second = max;
     maxFilteredMovies.push(add);
-    // cout << "TEsting" << endl;
-    // cout << maxFilteredMovies.front().second << endl;
-
-    // queue<Movies> filteredMovies;
-    // while (iter != listMovies.end()) {
-    //     temp = *iter;
-    //     filteredMovies.push(temp);
-    //     listMovies.erase(temp);
-    //     iter = listMovies.find(prefix);
-    // }
-    // pair<string, Movies> add;
-    // add.first = prefix;
-    // if (filteredMovies.empty()) {
-    //     Movies a;
-    //     add.second = a;
-    // }
-    // else {
-    //     max = filteredMovies.front();
-    //     while (!filteredMovies.empty()) {
-    //         temp = filteredMovies.front();
-    //         if (max.getRating() < temp.getRating()) {
-    //             max = temp;
-    //         }
-    //         listMovies.insert(temp);
-    //         filteredMovies.pop();
-    //     }
-    //     add.second = max;
-    // }
-    // maxFilteredMovies.push(add);
+    filtered.clear();
 }
 
 Movies compare;
@@ -186,7 +124,66 @@ while (!maxFilteredMovies.empty()) {
   return 0;
 }
 
-/* Add your run time analysis for part 3 of the assignment here as commented block*/
+/*  m = the number of prefix
+    n = the number of movies
+    k = the number of movies begin with the given prefix
+3a.
+the <1>for loop (for (i = 2; i < argc; ++i)) iterate m times
+inside of the loop,
+line 71 and 72 have runtime O(1) -> O(m)
+line 73, the find function for the set has runtime O(nlogn) -> O(m) + O(m*nlogn)
+the if statement at line 74 has O(1) and inside, there is while loop that iterate k times
+inside of the while loop, the code(line 76-80) have runtime O(1) -> O(m) + O(mnlogn) + O(mk) 
+line 83 has time complexity of O(1) -> O(m) + O(mnlogn) + O(mk)
+the if statement at line 86 has O(1) rumtime 
+and inside of the if statement, there is sort fucntion for vector
+it has rumtime O(nlogn) Then there exist the while loop inside the if statement too which has the runtime O(k)
+line 91-92 has O(1) runtime -> O(m) + O(mnlogn) + O(mk) + O(mnlogn + mk)
+Then the code for 94 and 95 have runtime (O(1))
+line 96, the clear function for the vector has runtime O(k)->O(km) -> O(m) + O(mnlogn) + O(mk) + O(mnlogn + mk)
+The <1>loop ended 
+The while loop at line 100 has runtime complexity O(m) and inside of the loop, the code has O(1) runtime 
+*empty(), pop(), and front() for queue all have O(1)
+-> O(m) + O(mnlogn) + O(mk) + O(mnlogn + mk)
+So overall worst runtime is O(m) + O(mnlogn) + O(mk) + O(mnlogn + mk)
+Since for any m that is greater or equal to 1 and k that, O(m) < O(mnlogn + mk) we can eliminate O(m)
+->O(mnlogn) + O(mk) + O(mnlogn + mk)
+Since for any m that is greater or equal to 1 and any k that is positive, for any n that is greater than 1,
+mk is positive, mnlogn is positive -> 
+O(mnlogn) < O(mnlogn + mk)
+and 
+O(mk) < O(mnlogn + mk),
+The final worst-case runtime is: O(mnlogn + mk)
+
+3b.
+since the string variable to store prefix declared outside of the loop that iterate m times, it has constant space complexity: O(1)
+max movie object declared before the loop, constant space complexity(1) overall:O(1) 
+iterator for the set was declared before the loop, which has the constant space complexity: O(1)
+pair with the string and Movies object declared before the loop also, which has the constant space complexity: O(1)
+vector variable filtered stores the k elements, space complexity: O(k) + O(1)
+line 86, iterator for the vector is delcared every iteration for the most outter loop,
+space complexity: O(m) + O(k) + O(1)
+the queue that stores the pair that composed of string and Movie object has space complexity 3*m overall: O(m) + O(k) + O(1)
+On line 100, Movie object variable compare is declared, which has constant space complexity O(1)
+For any m and k that is greater or equal to 1, there exist c st 
+O(1) < c*O(k) 
+and
+O(1) < c*O(m)
+Then overall: O(m) + O(k)
+
+3c.
+I mainly focused on the low runtime rather than low space complexity but maintain a reasonable space complexity.
+
+Rather than having the nested loop that has n^2 runtime, I focused on maintaining nlogn runtime using the functions that has nlogn runtime 
+such as lower_bound and sort. Since using 2 independent functions that have the same runtime insignificantly affect the runtime of algorithm, 
+I first used lower_bound function to find the smallest element in the set that match the prefix. Then after adding all elements that match the prefix in vector, the sort function was used 
+on the vector. In this case, the space complexity get larger due to vector but it enables the algorithm to reach lower runtime.  
+
+The space complexity for the algorithm is in reasonable range because I did not declare the object in side of the loop every time except for the iterator for the vector that stores filtered elements from the set.
+The same string, Movies, vector<Movies> variables was used throughout the <1>loop. (note. clearing the vector has worst runtime of O(n) which is < O(nlogn) so it did not affect the worst-case runtime Big-O)
+
+Low time complexity was harder to achieve compared to the low space complexity. 
+*/
 
 bool parseLine(string &line, string &movieName, double &movieRating) {
     if (line.length() <= 0) return false;
