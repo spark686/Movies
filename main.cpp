@@ -147,8 +147,10 @@ line 96, the clear function for the vector has runtime O(k)
 The <1>loop ended 
 The runtime for <1> is O(m(O(1) + O(logn) + O(k) + O(klogk)))
 which equates to O(m + mlogn + mk + mklogk)
-Since O(m) <= O(mk) for any k greater or equal to 1,
-overall runtime of <1> is O(mlogn + mk + mklogk)
+Since O(m) <= O(mk) for any k greater or equal to 1 and
+Since k <= klogk for any k that is greater than 1,
+mk <= mklogk  
+overall runtime of <1> is O(mlogn + mklogk)
 
 line 99 has O(1) complexity
 
@@ -159,8 +161,8 @@ The while loop overall has runtime O(m)
 
 Then overall, O(mlogn + mk + mklogk) + O(1) + O(m)
 Since O(1) <= O(mk) for any m,k that are greater or equal to 1
-and O(m) <= O(mk) for any k that is greater or equal to 1,
-The final runtime of the program is O(mlogn + mk + mklogk)
+
+The final runtime of the program is O(mlogn + mklogk)
 
 3b.
 line 64-68, the declaration of string,queue, pair, vector, Movies object, and iterator for set all have space complexity of O(1)
