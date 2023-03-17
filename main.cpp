@@ -69,7 +69,6 @@ int main(int argc, char** argv){
   auto iter = listMovies.begin();
   for (int i = 2; i < argc; ++i) {
     prefix = argv[i];
-    vector<Movies> filtered;
     iter = listMovies.lower_bound(prefix);
     if (iter != listMovies.end()) {
         while (prefix == *iter) {
@@ -130,59 +129,71 @@ while (!maxFilteredMovies.empty()) {
 3a.
 the <1>for loop (for (i = 2; i < argc; ++i)) iterate m times
 inside of the loop,
-line 71 and 72 have runtime O(1) -> O(m)
-line 73, the find function for the set has runtime O(nlogn) -> O(m) + O(m*nlogn)
-the if statement at line 74 has O(1) and inside, there is while loop that iterate k times
-inside of the while loop, the code(line 76-80) have runtime O(1) -> O(m) + O(mnlogn) + O(mk) 
-line 83 has time complexity of O(1) -> O(m) + O(mnlogn) + O(mk)
-the if statement at line 86 has O(1) rumtime 
-and inside of the if statement, there is sort fucntion for vector
-it has rumtime O(nlogn) Then there exist the while loop inside the if statement too which has the runtime O(k)
-line 91-92 has O(1) runtime -> O(m) + O(mnlogn) + O(mk) + O(mnlogn + mk)
+line 71 and 72 have runtime O(1)
+line 73, the upper_bound for the set has runtime O(logn)
+the if statement at line 74 has O(1) and inside, there is while loop that iterate k times O(k)
+inside of the while loop, the code(line 76-80) have runtime O(1)
+while loop for line 74 ended.
+line 83 has time complexity of O(1) 
+line 84 if statement has time complexity of O(1) <2>
+inside of the if statement<2>,
+there is sort fucntion for vector has rumtime O(klogk) runtime. 
+line 86 has O(1) time complexity in <2>
+Then there exist the while loop in <2> which has the runtime O(k)
+line 91-92 has O(1) runtime 
+<2> ended 
 Then the code for 94 and 95 have runtime (O(1))
-line 96, the clear function for the vector has runtime O(k)->O(km) -> O(m) + O(mnlogn) + O(mk) + O(mnlogn + mk)
+line 96, the clear function for the vector has runtime O(k)
 The <1>loop ended 
+The runtime for <1> is O(m(O(1) + O(logn) + O(k) + O(klogk)))
+which equates to O(m + mlogn + mk + mklogk)
+Since O(m) <= O(mk) for any k greater or equal to 1,
+overall runtime of <1> is O(mlogn + mk + mklogk)
+
+line 99 has O(1) complexity
+
+
 The while loop at line 100 has runtime complexity O(m) and inside of the loop, the code has O(1) runtime 
 *empty(), pop(), and front() for queue all have O(1)
--> O(m) + O(mnlogn) + O(mk) + O(mnlogn + mk)
-So overall worst runtime is O(m) + O(mnlogn) + O(mk) + O(mnlogn + mk)
-Since for any m that is greater or equal to 1 and k that, O(m) < O(mnlogn + mk) we can eliminate O(m)
-->O(mnlogn) + O(mk) + O(mnlogn + mk)
-Since for any m that is greater or equal to 1 and any k that is positive, for any n that is greater than 1,
-mk is positive, mnlogn is positive -> 
-O(mnlogn) < O(mnlogn + mk)
-and 
-O(mk) < O(mnlogn + mk),
-The final worst-case runtime is: O(mnlogn + mk)
+The while loop overall has runtime O(m)
+
+Then overall, O(mlogn + mk + mklogk) + O(1) + O(m)
+Since O(1) <= O(mk) for any m,k that are greater or equal to 1
+and O(m) <= O(mk) for any k that is greater or equal to 1,
+The final runtime of the program is O(mlogn + mk + mklogk)
 
 3b.
-since the string variable to store prefix declared outside of the loop that iterate m times, it has constant space complexity: O(1)
-max movie object declared before the loop, constant space complexity(1) overall:O(1) 
-iterator for the set was declared before the loop, which has the constant space complexity: O(1)
-pair with the string and Movies object declared before the loop also, which has the constant space complexity: O(1)
-vector variable filtered stores the k elements, space complexity: O(k) + O(1)
-line 86, iterator for the vector is delcared every iteration for the most outter loop,
-space complexity: O(m) + O(k) + O(1)
-the queue that stores the pair that composed of string and Movie object has space complexity 3*m overall: O(m) + O(k) + O(1)
-On line 100, Movie object variable compare is declared, which has constant space complexity O(1)
-For any m and k that is greater or equal to 1, there exist c st 
-O(1) < c*O(k) 
-and
-O(1) < c*O(m)
-Then overall: O(m) + O(k)
+line 64-68, the declaration of string,queue, pair, vector, Movies object, and iterator for set all have space complexity of O(1)
+The vector stores k elements but it is cleared out at the end of the every iteration
+so it has the space complexity of O(k)
+line 85, there is declaration of vector iterator inside of while loop that iterates m times so
+it has the space complexity of O(m)
+The queue takes m number of pairs so it has space complexity of O(m)
+So overall space complexity is O(k + m)
+
+
 
 3c.
 I mainly focused on the low runtime rather than low space complexity but maintain a reasonable space complexity.
 
-Rather than having the nested loop that has n^2 runtime, I focused on maintaining nlogn runtime using the functions that has nlogn runtime 
-such as lower_bound and sort. Since using 2 independent functions that have the same runtime insignificantly affect the runtime of algorithm, 
-I first used lower_bound function to find the smallest element in the set that match the prefix. Then after adding all elements that match the prefix in vector, the sort function was used 
-on the vector. In this case, the space complexity get larger due to vector but it enables the algorithm to reach lower runtime.  
+Rather than having the nested loop that has n^2 runtime to find the all elements that matches the prefixes
+I focused on maintaining the low runtime using the low bound function for set container which has time complexity of 
+O(logn). 
+Also, to sort the vector that contains the k elements, I used the sort function for vector class which 
+has runtime of O(klogk) instead of using the nested loop which has time complexity of O(k^2).
 
+The queue front,empty, and pop functions have time complexity of O(1) which is the lowest time complexity that it can achieve.
+
+________
+  
 The space complexity for the algorithm is in reasonable range because I did not declare the object in side of the loop every time except for the iterator for the vector that stores filtered elements from the set.
-The same string, Movies, vector<Movies> variables was used throughout the <1>loop. (note. clearing the vector has worst runtime of O(n) which is < O(nlogn) so it did not affect the worst-case runtime Big-O)
+The same string, Movies, vector<Movies> variables was used throughout the <1>loop. (note. clearing the vector has worst runtime of O(k) which is < O(klogk) so it does not affect the worst-case runtime Big-O)
 
-Low time complexity was harder to achieve compared to the low space complexity. 
+There is some trade off between the time complexity and space complexity. With O(k^2), there exist algorithm for evaluating the prefix and sorting exist such that 
+it does not require the filtered vector.
+But since I focused more on the low time complexity, the vector was used to store the filtered elements. Then sorted using the vector sort function which has O(klogk) time complexity.
+
+In general, low time complexity was harder to achieve compared to the low space complexity. 
 */
 
 bool parseLine(string &line, string &movieName, double &movieRating) {
